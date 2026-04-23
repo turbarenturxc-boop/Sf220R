@@ -22,7 +22,8 @@ export const chatSession = model.startChat({
       role: "user",
       parts: [
         {
-          text: "Generate Travel Plan for Location : Las Vegas, for 3 Days for Couple with a Cheap budget ,Give me a Hotels options list with HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and  suggest itinerary with placeName, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, rating, Time travel each of the location for 3 days with each day plan with best time to visit in JSON format."
+          text:
+            "Generate Travel Plan for Location : Las Vegas, for 3 Days for Couple with a Cheap budget, give me Hotels options list with HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and suggest itinerary with placeName, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, rating, Time travel each of the location for 3 days with each day plan with best time to visit in JSON format.",
         },
       ],
     },
@@ -40,15 +41,6 @@ export const chatSession = model.startChat({
       "geoCoordinates": "36.1695, -115.1438",
       "rating": "3.5 stars",
       "description": "A budget-friendly hotel located in downtown Las Vegas with a retro vibe. It features a casino, a pool, and several dining options."
-    },
-    {
-      "hotelName": "Circus Circus Hotel & Casino",
-      "hotelAddress": "2880 Las Vegas Blvd S, Las Vegas, NV 89109",
-      "price": "$40-$80 per night",
-      "hotelImageUrl": "https://www.circuscircus.com/content/dam/caesars/circus-circus/home/hero-image.jpg",
-      "geoCoordinates": "36.1207, -115.1687",
-      "rating": "3 stars",
-      "description": "A classic Las Vegas hotel with a circus theme. It features a large casino, a midway with carnival rides, and several dining options."
     }
   ],
   "itinerary": [
@@ -58,7 +50,7 @@ export const chatSession = model.startChat({
         {
           "time": "9:00 AM - 12:00 PM",
           "placeName": "Fremont Street Experience",
-          "placeDetails": "A pedestrian-friendly street in downtown Las Vegas with a canopy of lights and street performers. It's a great place to start your trip and get a feel for the city's energy.",
+          "placeDetails": "A pedestrian-friendly street in downtown Las Vegas with a canopy of lights and street performers.",
           "placeImageUrl": "https://www.fremontstreetexperience.com/images/fremont-street-experience/fremont-street-experience.jpg",
           "geoCoordinates": "36.1695, -115.1438",
           "ticketPricing": "Free",
@@ -67,7 +59,7 @@ export const chatSession = model.startChat({
       ]
     }
   ]
-}`
+}`,
         },
       ],
     },
@@ -81,9 +73,11 @@ ${prompt}
 
 IMPORTANT:
 - Return ONLY valid JSON
+- Use double quotes for every JSON key and string value
 - Do not include markdown
 - Do not include \`\`\`
 - Do not include explanation text
+- No trailing commas
 - Keep exactly these top-level keys: hotels, itinerary
 - hotels must contain: hotelName, hotelAddress, price, hotelImageUrl, geoCoordinates, rating, description
 - itinerary must contain: day, plan
@@ -93,7 +87,19 @@ IMPORTANT:
     const result = await chatSession.sendMessage(strictPrompt);
     let text = result.response.text();
 
-    text = text.replace(/```json|```/g, "").trim();
+    text = text
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+
+    const firstBrace = text.indexOf("{");
+    const lastBrace = text.lastIndexOf("}");
+
+    if (firstBrace !== -1 && lastBrace !== -1) {
+      text = text.substring(firstBrace, lastBrace + 1);
+    }
+
+    console.log("AI JSON TEXT:", text);
 
     return JSON.parse(text);
   } catch (error) {

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { AI_PROMPT, SelectBudgetOptions, SelectTravelsList } from '@/constants/options';
+import { AI_PROMPT, SelectBudgetOptions, SelectTravelesList } from '@/constants/options';
 import { chatSession } from '@/service/AIModal';
 import React, { useEffect, useState } from 'react'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
@@ -201,7 +201,7 @@ function CreateTrip() {
         </Button>
       </div>
 
-      <Dialog open={openDailog}>
+      <Dialog open={openDailog} onOpenChange={setOpenDailog}>
 
         <DialogContent>
           <DialogHeader>
