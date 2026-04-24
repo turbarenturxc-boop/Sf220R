@@ -100,7 +100,7 @@ function CreateTrip() {
 
       await setDoc(doc(db, "AITrips", docId), {
         userSelection: formData,
-        tripData: TripData, // ✅ ไม่ต้อง parse
+        tripData: TripData,
         userEmail: user?.email,
         id: docId
       });
@@ -128,13 +128,13 @@ function CreateTrip() {
     })
   }
   return (
-    <div className='sm:px-10 md:px-32 lg:px-56 xl:px-72 px-5 mt-10'>
-      <h2 className='font-bold text-3xl'>Tell us your travel preferences 🏕️🌴</h2>
-      <p className='mt-3 text-gray-500 text-xl'>Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.</p>
+    <div className='sm:px-10 md:px-32 lg:px-56 xl:px-72 px-5 min-h-screen bg-[#0f172a] text-white pt-24 pb-10'>
+      <h2 className='font-bold text-3xl'>Tell us your travel style</h2>
+      <p className='mt-3 text-gray-500 text-xl'>Just share a few details, and our AI will create a personalized itinerary tailored to you.</p>
 
       <div className='mt-20 flex flex-col gap-10'>
         <div>
-          <h2 className='text-xl my-3 font-medium'>What is destination of choice?</h2>
+          <h2 className='text-xl my-3 font-medium'>Where do you want to go?</h2>
           <GooglePlacesAutocomplete
             apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY}
             selectProps={{
@@ -142,14 +142,27 @@ function CreateTrip() {
               onChange: (v) => {
                 setPlace(v);
                 handleInputChange('location', v);
+              },
+              styles: {
+                control: b => ({ ...b, backgroundColor: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.25)', color: 'white' }),
+                input: b => ({ ...b, color: 'white' }),
+                singleValue: b => ({ ...b, color: 'white' }),
+                placeholder: b => ({ ...b, color: '#9ca3af' }),
+                menu: b => ({ ...b, backgroundColor: '#1f242b' }),
+                menuList: b => ({ ...b, backgroundColor: '#1f242b' }),
+                option: (b, s) => ({ ...b, backgroundColor: s.isFocused ? '#5b708c' : '#1f242b', color: 'white' })
               }
             }}
           />
         </div>
 
         <div>
-          <h2 className='text-xl my-3 font-medium'>How many days are you planning your trip?</h2>
-          <Input placeholder={'Ex.3'} type="number"
+          <h2 className='text-xl my-3 text-gray-850 font-medium'>How many days are you planning your trip?</h2>
+          <Input placeholder={'How many days?'} type="number"
+            className="bg-white/10 border border-white/20 
+                    text-white placeholder:text-gray-400
+                      rounded-lg p-3 w-full
+                    focus:border-[#4c75e6] focus:ring-1 focus:ring-[#4c75e6]"
             onChange={(e) => handleInputChange('noOfDays', e.target.value)}
           />
         </div>
@@ -162,7 +175,7 @@ function CreateTrip() {
                 onClick={() => handleInputChange('budget', item.title)}
                 className={`p-4 border cursor-pointer 
               rounded-lg hover:shadow-lg
-              ${formData?.budget == item.title && 'shadow-lg border-black'}
+              ${formData?.budget == item.title && 'shadow-lg border-[#4c75e6] border-2'}
               `}>
                 <h2 className='text-4xl'>{item.icon}</h2>
                 <h2 className='font-bold text-lg'>{item.title}</h2>
@@ -180,7 +193,7 @@ function CreateTrip() {
                 onClick={() => handleInputChange('traveler', item.people)}
                 className={`p-4 border cursor-pointer rounded-lg
                hover:shadow-lg
-               ${formData?.traveler == item.people && 'shadow-lg border-black'}
+               ${formData?.traveler == item.people && 'shadow-lg border-[#4c75e6] border-2'}
                `}>
                 <h2 className='text-4xl'>{item.icon}</h2>
                 <h2 className='font-bold text-lg'>{item.title}</h2>
@@ -194,7 +207,8 @@ function CreateTrip() {
       <div className='my-10 justify-end flex'>
         <Button
           disabled={loading}
-          onClick={OnGenerateTrip}>
+          onClick={OnGenerateTrip}
+          className="rounded-full px-8 py-6 bg-[#4c75e6] hover:bg-[#3b5fd1] text-white font-semibold shadow-lg">
           {loading ?
             <AiOutlineLoading3Quarters className='h-7 w-7 animate-spin' /> : 'Generate Trip'
           }

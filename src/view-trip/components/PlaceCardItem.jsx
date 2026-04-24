@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function PlaceCardItem({ place }) {
-  const [photoUrl, setPhotoUrl] = useState(place?.placeImageUrl || '/placeholder.jpg');
+  const [photoUrl, setPhotoUrl] = useState(place?.placeImageUrl || '/placehold.jpg');
 
   useEffect(() => {
     if (place?.placeName) {
@@ -25,11 +25,11 @@ function PlaceCardItem({ place }) {
         const PhotoUrl = PHOTO_REF_URL.replace('{NAME}', photoName);
         setPhotoUrl(PhotoUrl);
       } else {
-        setPhotoUrl(place?.placeImageUrl || '/placeholder.jpg');
+        setPhotoUrl(place?.placeImageUrl || '/placehold.jpg');
       }
     } catch (error) {
       console.error('PLACE PHOTO ERROR:', error);
-      setPhotoUrl(place?.placeImageUrl || '/placeholder.jpg');
+      setPhotoUrl(place?.placeImageUrl || '/placehold.jpg');
     }
   };
 
@@ -47,7 +47,7 @@ function PlaceCardItem({ place }) {
           className="w-[130px] h-[130px] rounded-xl object-cover"
           alt={place?.placeName || 'place'}
           onError={(e) => {
-            e.currentTarget.src = '/placeholder.jpg';
+            e.currentTarget.src = '/placehold.jpg';
           }}
         />
 

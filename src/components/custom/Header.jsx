@@ -49,7 +49,7 @@ function Header() {
   return (
     <div className='p-3 shadow-sm flex justify-between items-center px-5'>
       <a href='/'>
-        <img src='/logo.svg' />
+        <img src='/iplogo.svg' className="h-[42px] w-auto" />
       </a>
       <div>
         {user ?

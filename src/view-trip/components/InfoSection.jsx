@@ -5,7 +5,7 @@ import { IoIosSend } from "react-icons/io";
 
 function InfoSection({ trip }) {
 
-  const [photoUrl, setPhotoUrl] = useState('/placeholder.jpg');
+  const [photoUrl, setPhotoUrl] = useState('/placehold.jpg');
 
   useEffect(() => {
     if (trip?.userSelection?.location?.label) {
@@ -27,12 +27,12 @@ function InfoSection({ trip }) {
         const PhotoUrl = PHOTO_REF_URL.replace('{NAME}', photoName);
         setPhotoUrl(PhotoUrl);
       } else {
-        setPhotoUrl('/placeholder.jpg');
+        setPhotoUrl('/placehold.jpg');
       }
 
     } catch (error) {
       console.error("INFO PHOTO ERROR:", error);
-      setPhotoUrl('/placeholder.jpg');
+      setPhotoUrl('/placehold.jpg');
     }
   }
 
@@ -41,7 +41,7 @@ function InfoSection({ trip }) {
       <img
         src={photoUrl}
         className='h-[340px] w-full object-cover rounded-xl'
-        onError={(e) => e.currentTarget.src = '/placeholder.jpg'}
+        onError={(e) => e.currentTarget.src = '/placehold.jpg'}
       />
 
       <div className='flex justify-between items-center'>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 function HotelCardItem({ hotel }) {
 
-  const [photoUrl, setPhotoUrl] = useState(hotel?.hotelImageUrl || '/placeholder.jpg');
+  const [photoUrl, setPhotoUrl] = useState(hotel?.hotelImageUrl || '/placehold.jpg');
 
   useEffect(() => {
     if (hotel?.hotelName) {
@@ -26,12 +26,12 @@ function HotelCardItem({ hotel }) {
         const PhotoUrl = PHOTO_REF_URL.replace('{NAME}', photoName);
         setPhotoUrl(PhotoUrl);
       } else {
-        setPhotoUrl(hotel?.hotelImageUrl || '/placeholder.jpg');
+        setPhotoUrl(hotel?.hotelImageUrl || '/placehold.jpg');
       }
 
     } catch (error) {
       console.error("HOTEL PHOTO ERROR:", error);
-      setPhotoUrl(hotel?.hotelImageUrl || '/placeholder.jpg');
+      setPhotoUrl(hotel?.hotelImageUrl || '/placehold.jpg');
     }
   }
 
@@ -48,7 +48,7 @@ function HotelCardItem({ hotel }) {
           src={photoUrl}
           className='rounded-xl h-[180px] w-full object-cover'
           alt={hotel?.hotelName}
-          onError={(e) => e.currentTarget.src = '/placeholder.jpg'}
+          onError={(e) => e.currentTarget.src = '/placehold.jpg'}
         />
 
         <div className='my-2 flex flex-col gap-2'>
